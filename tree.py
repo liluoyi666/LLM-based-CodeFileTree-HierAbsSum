@@ -55,8 +55,8 @@ class FileTreeNode:
 
         return node
 
-    def print_tree_visual(self, show_summary: bool = False, max_depth: Optional[int] = None,
-                          indent: str = "", current_depth: int = 0) -> str:
+    def print_tree_visual(self, show_summary: bool = True, max_depth: Optional[int] = None,
+                          indent: str = "", current_depth: int = 0,max_len:int=None) -> str:
         """
         以简洁的树状结构可视化返回文件树的字符串表示，只使用缩进
         """
@@ -78,6 +78,8 @@ class FileTreeNode:
         if show_summary and self.summary and not self.is_empty:
             # 只取摘要的第一行（如果有多行）
             summary_line = self.summary.split('\n')[0]
+            if max_len is not None:
+                summary_line=summary_line[:max_len]+"..."
             result += f": {summary_line}"
 
         result += "\n"
@@ -91,7 +93,8 @@ class FileTreeNode:
                 show_summary,
                 max_depth,
                 new_indent,
-                current_depth + 1
+                current_depth + 1,
+                max_len=max_len
             )
 
         return result
@@ -131,18 +134,18 @@ class FileTreeNode:
         summaries = self.get_all_summaries()
         summaries_json = json.dumps(summaries, indent=2, ensure_ascii=False)
 
-        # 保存树状图到文本文件
-        tree_filename = f"{filename_prefix}_tree.txt"
+        # 保存树状图到文本文件（用于作为LLM提示词与人类理解）
+        tree_filename = f"datas/{filename_prefix}_tree.txt"
         with open(tree_filename, 'w', encoding='utf-8') as f:
             f.write(tree_visual)
 
-        # 保存JSON到文件
-        json_filename = f"{filename_prefix}_structure.json"
+        # 保存JSON到文件（用于重新加载）
+        json_filename = f"datas/{filename_prefix}_structure.json"
         with open(json_filename, 'w', encoding='utf-8') as f:
             f.write(tree_json)
 
         # 保存总结信息到文件（用于RAG）
-        summaries_filename = f"{filename_prefix}_summaries.json"
+        summaries_filename = f"datas/{filename_prefix}_summaries.json"
         with open(summaries_filename, 'w', encoding='utf-8') as f:
             f.write(summaries_json)
 
@@ -338,7 +341,7 @@ class ProjectSummarizer:
         # 从JSON文件加载树结构
 
         try:
-            with open(json_file_path, 'r', encoding='utf-8') as f:
+            with open(f"datas/{json_file_path}_structure.json", 'r', encoding='utf-8') as f:
                 data = json.load(f)
 
             # 使用FileTreeNode的类方法从字典重建树
@@ -362,48 +365,40 @@ class ProjectSummarizer:
 # 使用示例
 if __name__ == "__main__":
     # 创建总结器实例，设置最大深度为3，指定模型
-    summarizer = ProjectSummarizer(max_depth=3, model="deepseek-chat")
+    summarizer = ProjectSummarizer(max_depth=1, model="deepseek-chat")
 
     # 指定要遍历的项目路径
-    project_path = r"C:\A_py_project\AI-win11-Administrator"
+    project_path = r"D:\py_project\Project_Summary_Tool"
+    name = "Project_Summary_Tool"
 
-    # # 构建树
-    # tree = summarizer.build_tree(project_path)
-    # if tree:
-    #     print("项目结构树状图:")
-    #     print(tree.print_tree_visual(show_summary=True))
-    #
-    #     # 保存树状图和JSON到文件
-    #     tree_files = tree.save("aiwin11")
-    #
-    #     # 获取所有总结信息（可用于RAG）
-    #     summaries = tree.get_all_summaries()
-    #     print(f"\n共收集到 {len(summaries)} 个节点的总结信息")
-    #
-    #     # 打印前几个总结作为示例
-    #     for i, summary in enumerate(summaries[:3]):
-    #         print(f"\n示例 {i + 1}:")
-    #         print(f"名称: {summary['name']}")
-    #         print(f"路径: {summary['path']}")
-    #         print(f"类型: {summary['file_type']}")
-    #         print(f"总结: {summary['summary']}...")  # 只显示前100个字符
-    #
-    # # 新增功能：从JSON文件重新加载树结构
-    # print("\n" + "=" * 50)
-    # print("测试从JSON文件重新加载树结构")
-    # print("=" * 50)
+    # 构建树
+    tree = summarizer.build_tree(project_path)
+    if tree:
+        print("项目结构树状图:")
+        print(tree.print_tree_visual(show_summary=True))
 
-    # 假设我们有一个保存的JSON文件
-    json_file_path = "aiwin11_structure.json"
-    if os.path.exists(json_file_path):
-        reloaded_tree = summarizer.load_tree_from_json(json_file_path)
-        if reloaded_tree:
-            print("成功从JSON文件重新加载树结构:")
+        # 项目名称
+        tree_files = tree.save(name)
 
-            # 验证重新加载的树结构
-            reloaded_summaries = reloaded_tree.print_tree_visual(show_summary=True)
-            print(reloaded_summaries)
-        else:
-            print("从JSON文件重新加载树结构失败")
-    else:
-        print(f"JSON文件 {json_file_path} 不存在")
+        # 获取所有总结信息（可用于RAG）
+        summaries = tree.get_all_summaries()
+        print(f"\n共收集到 {len(summaries)} 个节点的总结信息")
+
+        # 打印前几个总结作为示例
+        for i, summary in enumerate(summaries[:3]):
+            print(f"\n示例 {i + 1}:")
+            print(f"名称: {summary['name']}")
+            print(f"路径: {summary['path']}")
+            print(f"类型: {summary['file_type']}")
+            print(f"总结: {summary['summary']}...")  # 只显示前100个字符
+
+    # 新增功能：从JSON文件重新加载树结构
+    print("\n" + "=" * 50)
+    print("测试从JSON文件重新加载树结构")
+    print("=" * 50)
+
+    # 项目名称
+    json_file_path = name
+    tree = summarizer.load_tree_from_json(json_file_path)
+
+    print(tree.print_tree_visual(max_depth=3,max_len=100))
