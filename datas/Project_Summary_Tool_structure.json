@@ -1,0 +1,73 @@
+{
+  "name": "Project_Summary_Tool",
+  "path": "D:\\py_project\\Project_Summary_Tool",
+  "file_type": "directory",
+  "depth": 0,
+  "summary": "Project_Summary_Tool是一个项目分析工具，负责生成代码文件和目录的AI总结。核心模块包括api.py提供统一的多模型API调用接口，prompts.py定义标准提示模板，rag.py实现基于语义搜索的总结检索，tree.py构建文件树并生成摘要。关键外部调用包括get_response_from_llm函数与LLM服务交互，以及SentenceTransformer模型处理语义嵌入。系统通过整合这些模块实现自动化的项目结构分析和智能总结功能。",
+  "is_empty": false,
+  "children": [
+    {
+      "name": "api.py",
+      "path": "D:\\py_project\\Project_Summary_Tool\\api.py",
+      "file_type": ".py",
+      "depth": 1,
+      "summary": "该文件是项目中的API调用模块，主要负责与多个LLM服务提供商进行交互。核心功能是通过统一的接口调用不同AI模型，包括Anthropic、OpenAI、Google Gemini等。核心外部调用是get_response_from_llm函数，它处理消息发送和响应接收。文件包含两个主要函数：create_client根据模型类型创建对应的API客户端；get_response_from_llm是核心函数，处理与不同模型的交互逻辑，支持消息历史、温度调节等功能。还定义了MAX_NUM_TOKENS常量控制序列长度和AVAILABLE_LLMS列表枚举支持的模型。",
+      "is_empty": false,
+      "children": []
+    },
+    {
+      "name": "datas",
+      "path": "D:\\py_project\\Project_Summary_Tool\\datas",
+      "file_type": "directory",
+      "depth": 1,
+      "summary": "",
+      "is_empty": false,
+      "children": []
+    },
+    {
+      "name": "local_model",
+      "path": "D:\\py_project\\Project_Summary_Tool\\local_model",
+      "file_type": "directory",
+      "depth": 1,
+      "summary": "",
+      "is_empty": false,
+      "children": []
+    },
+    {
+      "name": "prompts.py",
+      "path": "D:\\py_project\\Project_Summary_Tool\\prompts.py",
+      "file_type": ".py",
+      "depth": 1,
+      "summary": "该文件是提示词模板定义文件，在项目中负责提供代码分析和目录总结的标准提示格式。核心作用是存储两个字符串模板供外部调用：FILE_SUMMARY_PROMPT用于文件分析，DIRECTORY_SUMMARY_PROMPT用于目录总结。包含两个重要模板变量：FILE_SUMMARY_PROMPT提供文件分析提示框架，接收文件名、路径和内容参数；DIRECTORY_SUMMARY_PROMPT提供目录总结提示框架，接收目录名、路径和子内容总结参数。这两个模板定义了AI代码分析的标准提问格式和输出要求。",
+      "is_empty": false,
+      "children": []
+    },
+    {
+      "name": "rag.py",
+      "path": "D:\\py_project\\Project_Summary_Tool\\rag.py",
+      "file_type": ".py",
+      "depth": 1,
+      "summary": "该文件实现了一个基于RAG的项目总结检索系统，负责对项目文件摘要进行语义搜索。核心外部调用包括SentenceTransformer模型和cosine_similarity相似度计算。主要包含ProjectSummaryRAG类，其__init__方法初始化系统并生成嵌入向量，search方法执行相似度搜索，print_results格式化输出结果。辅助函数load_summaries_from_json从JSON文件加载摘要数据。系统通过嵌入向量和余弦相似度实现项目文档的智能检索功能。",
+      "is_empty": false,
+      "children": []
+    },
+    {
+      "name": "tree.py",
+      "path": "D:\\py_project\\Project_Summary_Tool\\tree.py",
+      "file_type": ".py",
+      "depth": 1,
+      "summary": "该文件实现项目文件树结构与AI总结功能，是项目分析工具的核心模块。主要依赖外部API调用LLM生成文件摘要。包含FileTreeNode类表示文件树节点，提供序列化、可视化和摘要收集功能；ProjectSummarizer类负责遍历文件系统、读取内容并调用AI接口生成总结。核心外部调用为get_response_from_llm函数，用于获取AI生成的摘要内容。",
+      "is_empty": false,
+      "children": []
+    },
+    {
+      "name": "__pycache__",
+      "path": "D:\\py_project\\Project_Summary_Tool\\__pycache__",
+      "file_type": "directory",
+      "depth": 1,
+      "summary": "",
+      "is_empty": false,
+      "children": []
+    }
+  ]
+}
