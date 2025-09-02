@@ -2,7 +2,7 @@
 
 ## 项目简介
 
-Project Summary Tool 是一个创新的项目分析工具，专门设计用于帮助开发者和AI系统理解和分析代码项目结构。它通过智能分层总结技术，将面向对象编程思想与AI能力深度融合，解决了大型代码项目管理中的核心痛点。
+LLM-based CodeFileTree HierAbsSum 是一个创新的项目分析工具，专门设计用于帮助开发者和AI系统理解和分析代码项目结构。它通过智能分层总结技术，将面向对象编程思想与AI能力深度融合，解决了大型代码项目管理中的核心痛点。
 
 ## 核心特性
 
@@ -113,7 +113,7 @@ rag_system.print_results(results)
 ## 项目结构
 
 ```
-Project_Summary_Tool/
+LLM-based CodeFileTree HierAbsSum/
 ├── tree.py              # 核心文件树构建与总结功能
 ├── rag.py               # RAG检索系统
 ├── api.py               # 多模型API统一接口
