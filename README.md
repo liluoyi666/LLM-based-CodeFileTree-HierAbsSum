@@ -148,4 +148,4 @@ LLM-based CodeFileTree HierAbsSum/
 
 ---
 
-**Project Summary Tool** 不仅是一个技术工具，更是连接传统软件开发与AI智能编程的桥梁。它让AI真正具备了"理解"大型项目的能力，为下一代智能编程助手奠定了坚实基础。
+**LLM-based CodeFileTree HierAbsSum** 不仅是一个技术工具，更是连接传统软件开发与AI智能编程的桥梁。它让AI真正具备了"理解"大型项目的能力，为下一代智能编程助手奠定了坚实基础。
