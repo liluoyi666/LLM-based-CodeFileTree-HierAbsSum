@@ -77,7 +77,10 @@ class FileTreeNode:
         # 如果有摘要且需要显示，添加摘要信息
         if show_summary and self.summary and not self.is_empty:
             # 只取摘要的第一行（如果有多行）
-            summary_line = self.summary.split('\n')[0]
+            if self.file_type=="directory":
+                summary_line = " ".join(self.summary.split('\n'))
+            else:
+                summary_line = f"\n{indent}    ".join([line for line in self.summary.split('\n') if line != ''])
             if max_len is not None:
                 summary_line=summary_line[:max_len]+"..."
             result += f": {summary_line}"
@@ -226,7 +229,17 @@ class ProjectSummarizer:
                 msg=prompt,
                 client=self.client,
                 model=self.model_name,
-                system_message="你是一个资深程序员，了解面向对象的思想，擅长分析和总结代码项目结构。",
+                system_message="""你是一个资深程序员，了解面向对象的思想，擅长分析和总结代码项目结构。
+如果文件为代码，按以下格式总结，控制在256字以内，不重要或被嵌套的类或函数可不单独总结:
+```
+该代码大体实现了...，调用了...
+class a: 这是一个类，实现了...
+class b: 这是一个类，实现了...
+def c: 这是一个函数，实现了...
+X=1: 这是一个宏。
+```
+非代码文件无需使用该格式，直接使用自然语言概括其内容
+""",
                 print_debug=False,
                 temperature=0.5
             )
@@ -365,40 +378,40 @@ class ProjectSummarizer:
 # 使用示例
 if __name__ == "__main__":
     # 创建总结器实例，设置最大深度为3，指定模型
-    summarizer = ProjectSummarizer(max_depth=1, model="deepseek-chat")
+    summarizer = ProjectSummarizer(max_depth=3, model="deepseek-chat")
 
     # 指定要遍历的项目路径
-    project_path = r"D:\py_project\Project_Summary_Tool"
-    name = "Project_Summary_Tool"
+    project_path = r"C:\A_py_project\AI-win11-Administrator"
+    name = "AI-win11"
 
-    # 构建树
-    tree = summarizer.build_tree(project_path)
-    if tree:
-        print("项目结构树状图:")
-        print(tree.print_tree_visual(show_summary=True))
-
-        # 项目名称
-        tree_files = tree.save(name)
-
-        # 获取所有总结信息（可用于RAG）
-        summaries = tree.get_all_summaries()
-        print(f"\n共收集到 {len(summaries)} 个节点的总结信息")
-
-        # 打印前几个总结作为示例
-        for i, summary in enumerate(summaries[:3]):
-            print(f"\n示例 {i + 1}:")
-            print(f"名称: {summary['name']}")
-            print(f"路径: {summary['path']}")
-            print(f"类型: {summary['file_type']}")
-            print(f"总结: {summary['summary']}...")  # 只显示前100个字符
-
-    # 新增功能：从JSON文件重新加载树结构
-    print("\n" + "=" * 50)
-    print("测试从JSON文件重新加载树结构")
-    print("=" * 50)
+    # # 构建树
+    # tree = summarizer.build_tree(project_path)
+    # if tree:
+    #     print("项目结构树状图:")
+    #     print(tree.print_tree_visual(show_summary=True))
+    #
+    #     # 项目名称
+    #     tree_files = tree.save(name)
+    #
+    #     # 获取所有总结信息（可用于RAG）
+    #     summaries = tree.get_all_summaries()
+    #     print(f"\n共收集到 {len(summaries)} 个节点的总结信息")
+    #
+    #     # 打印前几个总结作为示例
+    #     for i, summary in enumerate(summaries[:3]):
+    #         print(f"\n示例 {i + 1}:")
+    #         print(f"名称: {summary['name']}")
+    #         print(f"路径: {summary['path']}")
+    #         print(f"类型: {summary['file_type']}")
+    #         print(f"总结: {summary['summary']}...")  # 只显示前100个字符
+    #
+    # # 新增功能：从JSON文件重新加载树结构
+    # print("\n" + "=" * 50)
+    # print("测试从JSON文件重新加载树结构")
+    # print("=" * 50)
 
     # 项目名称
     json_file_path = name
     tree = summarizer.load_tree_from_json(json_file_path)
 
-    print(tree.print_tree_visual(max_depth=3,max_len=100))
+    print(tree.print_tree_visual(max_depth=3,max_len=None))

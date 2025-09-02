@@ -1,4 +1,4 @@
-# 项目总结与智能分析工具
+# LLM-based CodeFileTree HierAbsSum
 
 ## 项目简介
 
