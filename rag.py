@@ -118,7 +118,7 @@ def load_summaries_from_json(json_file_path: str) -> List[Dict[str, Any]]:
 # 使用示例
 if __name__ == "__main__":
     # 加载总结数据
-    summaries_file = "ai_win11_summaries.json"  # 替换为您的总结JSON文件路径
+    summaries_file = "datas/AI-win11_summaries.json"  # 替换为您的总结JSON文件路径
     summaries_data = load_summaries_from_json(summaries_file)
 
     if not summaries_data:

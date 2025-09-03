@@ -56,7 +56,7 @@ class FileTreeNode:
         return node
 
     def print_tree_visual(self, show_summary: bool = True, max_depth: Optional[int] = None,
-                          indent: str = "", current_depth: int = 0,max_len:int=None) -> str:
+                          indent: str = "", current_depth: int = 0,max_len:int=None,num_lines=None) -> str:
         """
         以简洁的树状结构可视化返回文件树的字符串表示，只使用缩进
         """
@@ -80,7 +80,7 @@ class FileTreeNode:
             if self.file_type=="directory":
                 summary_line = " ".join(self.summary.split('\n'))
             else:
-                summary_line = f"\n{indent}    ".join([line for line in self.summary.split('\n') if line != ''])
+                summary_line = f"\n{indent}    ".join([line for line in self.summary.split('\n') if line != ''][:num_lines])
             if max_len is not None:
                 summary_line=summary_line[:max_len]+"..."
             result += f": {summary_line}"
@@ -97,7 +97,8 @@ class FileTreeNode:
                 max_depth,
                 new_indent,
                 current_depth + 1,
-                max_len=max_len
+                max_len=max_len,
+                num_lines=num_lines
             )
 
         return result
@@ -381,10 +382,10 @@ if __name__ == "__main__":
     summarizer = ProjectSummarizer(max_depth=3, model="deepseek-chat")
 
     # 指定要遍历的项目路径
-    project_path = r"C:\A_py_project\AI-win11-Administrator"
+    project_path = r"D:\py_project\AI-win11-Administrator"
     name = "AI-win11"
 
-    # # 构建树
+    # 构建树
     # tree = summarizer.build_tree(project_path)
     # if tree:
     #     print("项目结构树状图:")
@@ -414,4 +415,4 @@ if __name__ == "__main__":
     json_file_path = name
     tree = summarizer.load_tree_from_json(json_file_path)
 
-    print(tree.print_tree_visual(max_depth=3,max_len=None))
+    print(tree.print_tree_visual(max_depth=3,max_len=None,num_lines=1))
