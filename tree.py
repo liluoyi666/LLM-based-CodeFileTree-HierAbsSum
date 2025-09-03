@@ -381,38 +381,21 @@ if __name__ == "__main__":
     # 创建总结器实例，设置最大深度为3，指定模型
     summarizer = ProjectSummarizer(max_depth=3, model="deepseek-chat")
 
-    # 指定要遍历的项目路径
+    # 项目位置与项目名称
     project_path = r"D:\py_project\AI-win11-Administrator"
     name = "AI-win11"
 
-    # 构建树
-    # tree = summarizer.build_tree(project_path)
-    # if tree:
-    #     print("项目结构树状图:")
-    #     print(tree.print_tree_visual(show_summary=True))
-    #
-    #     # 项目名称
-    #     tree_files = tree.save(name)
-    #
-    #     # 获取所有总结信息（可用于RAG）
-    #     summaries = tree.get_all_summaries()
-    #     print(f"\n共收集到 {len(summaries)} 个节点的总结信息")
-    #
-    #     # 打印前几个总结作为示例
-    #     for i, summary in enumerate(summaries[:3]):
-    #         print(f"\n示例 {i + 1}:")
-    #         print(f"名称: {summary['name']}")
-    #         print(f"路径: {summary['path']}")
-    #         print(f"类型: {summary['file_type']}")
-    #         print(f"总结: {summary['summary']}...")  # 只显示前100个字符
-    #
-    # # 新增功能：从JSON文件重新加载树结构
-    # print("\n" + "=" * 50)
-    # print("测试从JSON文件重新加载树结构")
-    # print("=" * 50)
+    # 开始构建树
+    tree = summarizer.build_tree(project_path)
 
-    # 项目名称
-    json_file_path = name
-    tree = summarizer.load_tree_from_json(json_file_path)
+    # 可视化展示
+    print(tree.print_tree_visual())
 
-    print(tree.print_tree_visual(max_depth=3,max_len=None,num_lines=1))
+    # 保存结果至datas/my_project
+    tree.save(name)
+
+    # 指定名称重新加载树
+    tree = summarizer.load_tree_from_json(name)
+
+    # 展示深度2，每个摘要只最多展示一行
+    print(tree.print_tree_visual(max_depth=2,num_lines=1))

@@ -43,33 +43,28 @@ LLM-based CodeFileTree HierAbsSum 是一个创新的项目分析工具，专门�
 
 ## 安装与使用
 
-### 快速开始
-```bash
-# 克隆项目
-git clone <repository-url>
-cd Project_Summary_Tool
-
-# 安装依赖
-pip install -r requirements.txt
-
-# 运行示例
-python tree.py
-```
-
 ### 基本用法
 ```python
-# 初始化总结器
-summarizer = ProjectSummarizer(max_depth=3, model="deepseek-chat")
+    summarizer = ProjectSummarizer(max_depth=3, model="deepseek-chat")
 
-# 生成项目总结
-project_path = "your/project/path"
-tree = summarizer.build_tree(project_path)
+    # 项目位置与项目名称
+    project_path = r"D:\py_project\my_project"
+    name = "my_projec"
 
-# 可视化展示
-print(tree.print_tree_visual(show_summary=True, max_depth=2))
+    # 开始构建树
+    tree = summarizer.build_tree(project_path)
 
-# 保存结果
-tree.save("my_project")
+    # 可视化展示
+    print(tree.print_tree_visual())
+
+    # 保存结果至datas/my_project
+    tree.save(name)
+    
+    # 指定名称重新加载树
+    tree = summarizer.load_tree_from_json(name)
+
+    # 展示深度2，每个摘要只最多展示一行
+    print(tree.print_tree_visual(max_depth=2,num_lines=1))
 ```
 
 ### RAG检索使用
