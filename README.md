@@ -142,7 +142,7 @@ LLM-based CodeFileTree HierAbsSum/
 
 ## 许可证
 
-本项目采用Apache 2.0开源许可证，代码实现简易，可自行修改拓展。
+本项目采用Apache 2.0开源许可证。代码实现简易，可自行修改拓展或借鉴。
 
 ---
 
