@@ -132,9 +132,9 @@ LLM-based CodeFileTree HierAbsSum/
 
 ## 未来规划
 
-- [ ] IDE插件开发，AI编程助手适配
-- [ ] 动态树结构，适配项目实时开发
-- [ ] 多模态信息读取：pdf，ppt，MP3，png
+- [ ] IDE插件开发，GUI软件开发，AI编程助手适配
+- [ ] 动态树可变结构，适配项目实时开发
+- [ ] 多模态信息读取总结：pdf，ppt，mp3，png
 
 ## 贡献指南
 
@@ -142,7 +142,7 @@ LLM-based CodeFileTree HierAbsSum/
 
 ## 许可证
 
-本项目采用Apache 2.0开源许可证，详见LICENSE文件。
+本项目采用Apache 2.0开源许可证，代码实现简易，可自行修改拓展。
 
 ---
 
