@@ -54,10 +54,10 @@ LLM-based CodeFileTree HierAbsSum 是一个创新的项目分析工具，专门�
 
     # 项目位置与项目名称
     project_path = r"D:\py_project\my_project"
-    name = "my_projec"
+    name = "my_project"
 
-    # 开始构建树
-    tree = summarizer.build_tree(project_path)
+    # 开始构建树，信息视野2
+    tree = summarizer.build_tree(project_path,visibility=2)
 
     # 可视化展示
     print(tree.print_tree_visual())
@@ -80,7 +80,7 @@ summaries_data = load_summaries_from_json("my_project_summaries.json")
 # 初始化RAG系统
 rag_system = ProjectSummaryRAG(summaries_data)
 
-# 语义检索
+# 语义检索，最相关的5个节点
 results = rag_system.search("文件上传功能", top_k=5)
 rag_system.print_results(results)
 ```

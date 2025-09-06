@@ -248,7 +248,7 @@ X=1: 这是一个宏。
         except Exception as e:
             return f"AI总结失败: {str(e)}"
 
-    def summarize_directory(self, dir_path: str, node: FileTreeNode) -> str:
+    def summarize_directory(self, dir_path: str, node: FileTreeNode,visibility = 2) -> str:
         """使用AI总结目录内容"""
         # 获取子节点的简要信息
         children_info = []
@@ -268,7 +268,7 @@ X=1: 这是一个宏。
             return ""
 
         # children_summary = "\n".join(children_info)
-        children_summary = "\n"+node.print_tree_visual(show_summary=True,max_depth=2)
+        children_summary = "\n"+node.print_tree_visual(show_summary=True,max_depth=visibility)
 
         prompt = prompts.DIRECTORY_SUMMARY_PROMPT.format(
             dir_name=os.path.basename(dir_path),
@@ -294,7 +294,7 @@ X=1: 这是一个宏。
             dir_count = sum(1 for child in node.children if child.file_type == "directory" and not child.is_empty)
             return f"AI总结失败，包含 {file_count} 个文件, {dir_count} 个子目录。错误: {str(e)}"
 
-    def build_tree(self, root_path: str, current_depth: int = 0) -> Optional[FileTreeNode]:
+    def build_tree(self, root_path: str, current_depth: int = 0,visibility = 2) -> Optional[FileTreeNode]:
         """构建文件树"""
         if current_depth > self.max_depth:
             return None
@@ -334,13 +334,13 @@ X=1: 这是一个宏。
                             continue
 
                         item_path = os.path.join(root_path, item)
-                        child_node = self.build_tree(item_path, current_depth + 1)
+                        child_node = self.build_tree(item_path, current_depth + 1,visibility = 2)
                         if child_node:
                             node.add_child(child_node)
 
                     # 只有非空目录才进行总结
                     if not is_empty_dir:
-                        node.summary = self.summarize_directory(root_path, node)
+                        node.summary = self.summarize_directory(root_path, node,visibility)
             except PermissionError:
                 node.summary = "无权限"
                 node.is_empty = True
@@ -384,8 +384,8 @@ if __name__ == "__main__":
     project_path = r"D:\py_project\AI-win11-Administrator"
     name = "AI-win11"
 
-    # 开始构建树
-    tree = summarizer.build_tree(project_path)
+    # 开始构建树，信息视野2
+    tree = summarizer.build_tree(project_path,visibility=2)
 
     # 可视化展示
     print(tree.print_tree_visual())
