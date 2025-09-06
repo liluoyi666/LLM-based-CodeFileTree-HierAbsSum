@@ -101,8 +101,8 @@ rag_system.print_results(results)
 
 ## 支持的模型
 
-- DeepSeek Chat
-- OpenAI GPT系列
+- OpenAI GPT
+- DeepSeek
 - Anthropic Claude
 - Google Gemini
 - 其他兼容OpenAPI的模型
@@ -129,6 +129,7 @@ LLM-based CodeFileTree HierAbsSum/
 
 ## 未来规划
 
+- [ ] AI编程助手适配
 - [ ] IDE插件开发
 - [ ] 实时项目监控
 - [ ] 团队协作功能
@@ -145,3 +146,5 @@ LLM-based CodeFileTree HierAbsSum/
 ---
 
 **LLM-based CodeFileTree HierAbsSum** 不仅是一个技术工具，更是连接传统软件开发与AI智能编程的桥梁。它让AI真正具备了"理解"大型项目的能力，为下一代智能编程助手奠定了坚实基础。
+
+https://github.com/liluoyi666/LLM-based-CodeFileTree-HierAbsSum.git
