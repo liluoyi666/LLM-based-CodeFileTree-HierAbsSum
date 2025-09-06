@@ -165,8 +165,7 @@ class ProjectSummarizer:
 
     def __init__(self, max_depth: int = 5, model: str = "deepseek-chat"):
         self.max_depth = max_depth
-        self.text_extensions = {'.txt', '.py', '.js', '.java', '.c', '.cpp', '.h',
-                                '.html', '.css', '.json', '.xml', '.md', '.rst'}
+        self.text_extensions = {'.txt', '.py', '.js', '.java', '.c', '.cpp', '.h', '.html', '.css', '.json', '.xml', '.md', '.rst'}
         self.model = model
         self.client, self.model_name = create_client(model)
 
