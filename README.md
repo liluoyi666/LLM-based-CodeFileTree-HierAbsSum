@@ -17,7 +17,7 @@ LLM-based CodeFileTree HierAbsSum 是一个创新的项目分析工具，专门�
 - **智能摘要显示**：每个节点附带AI生成的功能摘要
 
 ### 🔍 高级检索功能
-- **RAG集成**：基于语义的代码检索系统，性能优于直接检索代码语言
+- **RAG集成**：基于自然语言的代码检索系统，性能优于直接检索代码语言
 - **多模型支持**：兼容多种大语言模型(Anthropic、OpenAI、Google Gemini等)
 - **本地向量化**：使用SentenceTransformer进行本地文本嵌入
 
